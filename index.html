@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Ingreso de Contenedores</title>
+</head>
+
+<body>
+
+    <div class="contact">
+        <h1 class="contact-title">Ubicar Contenedor</h1>
+        <form action="" name="contenedor tablas dinamicas010523">
+            <div class="form-group">
+                <label for="contenedor">Contenedor</label>
+                <input type="number" name="contenedor" id="contenedor" autofocus>
+            </div>
+            <div class="form-group">
+                <label for="pasillo">Pasillo</label>
+                <input type="number" name="pasillo" id="pasillo">
+            </div>
+            <button type="submit" class="btn-submit">Enviar</button>
+        </form>
+    </div>
+
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwg6dAIb08g7IiQxLmIMrTFioIu0dO6UD_KJSEwWMphPbL3ZX4YuPRNSexsdKmHrFvm3Q/exec'
+        const form = document.forms['contenedor tablas dinamicas010523']
+        const contenedorInput = document.getElementById('contenedor')
+        const pasilloInput = document.getElementById('pasillo')
+
+        contenedorInput.addEventListener('input', () => {
+            if (contenedorInput.value !== '') {
+                pasilloInput.focus()
+            }
+        })
+
+        form.addEventListener('submit', e => {
+            e.preventDefault()
+            fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+                .then(response => {
+                    form.reset()
+                    console.log('Success!', response)
+                })
+                .catch(error => console.error('Error!', error.message))
+        })
+    </script>
+
+</body>
+
+</html>
