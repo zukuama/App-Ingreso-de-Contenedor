@@ -6,6 +6,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <style>
+        .message-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+        }
+
+        .message {
+            padding: 20px;
+            background-color: #fff;
+            color: #000;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+    </style>
     <title>Ingreso de Contenedores</title>
 </head>
 
@@ -13,7 +35,7 @@
 
     <div class="contact">
         <h1 class="contact-title">Ubicar Contenedor</h1>
-        <form action="" name="contenedor tablas dinamicas010523">
+        <form action="" name="contenedor-tablas-dinamicas010523">
             <div class="form-group">
                 <label for="contenedor">Contenedor</label>
                 <input type="number" name="contenedor" id="contenedor" autofocus>
@@ -28,7 +50,7 @@
 
     <script>
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwg6dAIb08g7IiQxLmIMrTFioIu0dO6UD_KJSEwWMphPbL3ZX4YuPRNSexsdKmHrFvm3Q/exec'
-        const form = document.forms['contenedor tablas dinamicas010523']
+        const form = document.forms['contenedor-tablas-dinamicas010523']
         const contenedorInput = document.getElementById('contenedor')
         const pasilloInput = document.getElementById('pasillo')
 
@@ -43,10 +65,32 @@
             fetch(scriptURL, { method: 'POST', body: new FormData(form) })
                 .then(response => {
                     form.reset()
-                    console.log('Success!', response)
+                    showMessage('Envío exitoso', 'green')
                 })
                 .catch(error => console.error('Error!', error.message))
         })
+
+        function showMessage(message, color) {
+            const messageContainer = document.createElement('div')
+            messageContainer.className = 'message-container'
+            
+            const messageElement = document.createElement('div')
+            messageElement.className = 'message'
+            messageElement.textContent = message
+            messageElement.style.color = color
+
+            messageContainer.appendChild(messageElement)
+            document.body.appendChild(messageContainer)
+
+            setTimeout(() => {
+                messageContainer.style.opacity = '0'
+                setTimeout(() => {
+                    document.body.removeChild(messageContainer)
+                }, 500)
+            }, 1000)
+
+            contenedorInput.focus()
+        }
     </script>
 
 </body>
